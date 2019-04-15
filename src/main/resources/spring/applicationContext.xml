@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx" xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:cache="http://www.springframework.org/schema/cache"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-3.1.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-3.1.xsd
+      	http://www.springframework.org/schema/tx
+      	http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd">
+
+    <!--Scan beans, except @Controller -->
+    <context:component-scan base-package="com.lfx.business.passport"/>
+
+    <!-- 开启注解 -->
+    <mvc:annotation-driven>
+        <mvc:message-converters>
+            <bean class="org.springframework.http.converter.StringHttpMessageConverter"/>
+            <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"/>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+
+    <!--Enables the use of the @AspectJ style of Spring AOP-->
+    <!--强制开启cglib 动态代理 -->
+    <!--<aop:aspectj-autoproxy proxy-target-class="true"/>-->
+    <!--jdk1.6、jdk1.7 jdk比cglib慢一点 jdk1.8 jdk比cglib将近快一倍-->
+    <aop:aspectj-autoproxy/>
+    <!-- 静态资源(js、image等)的访问 -->
+    <mvc:default-servlet-handler/>
+
+    <mvc:resources mapping="/swagger/**" location="/WEB-INF/swagger-ui/"/>
+
+    <!-- 定义无需Controller的url<->view直接映射 -->
+    <mvc:view-controller path="/" view-name="/index"/>
+
+    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>classpath:/redis.properties</value>
+                <value>classpath:/jdbc.properties</value>
+            </list>
+        </property>
+    </bean>
+
+    <!-- swagger api -->
+    <bean id="swaggerConfig" class="com.lfx.business.passport.swagger.SwaggerConfig"/>
+
+    <!-- velocity 模板-->
+    <!--<import resource="spring-velocity.xml"/>-->
+
+    <!-- freemarker 模板-->
+    <import resource="spring-freemarker.xml"/>
+    <import resource="spring-datasource.xml"/>
+    <import resource="spring-shiro.xml"/>
+    <import resource="spring-redis.xml"/>
+    <import resource="spring-cache.xml"/>
+</beans>

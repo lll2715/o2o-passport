@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cache="http://www.springframework.org/schema/cache"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd">
+
+    <cache:annotation-driven/>
+
+    <bean id="cacheManager" class="org.springframework.cache.support.SimpleCacheManager">
+        <property name="caches">
+            <set>
+                <bean class="org.springframework.data.redis.cache.RedisCache">
+                    <constructor-arg index="0" name="name" value="accountCache"/>
+                    <constructor-arg index="1"><null/></constructor-arg>
+                    <constructor-arg index="2" name="redisOperations" ref="redisTemplate"/>
+                    <constructor-arg index="3" name="expiration" value="100000000"/>
+                </bean>
+                <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean">
+                    <property name="name" value="default"/>
+                </bean>
+                <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean">
+                    <property name="name" value="accountCache124"/>
+                </bean>
+            </set>
+        </property>
+    </bean>
+
+    <!--<bean id="cacheManager" class="org.springframework.cache.guava.GuavaCacheManager">-->
+        <!--<property name="cacheSpecification" value="initialCapacity=500,maximumSize=5000,expireAfterAccess=2m,softValues" />-->
+        <!--<property name="cacheNames">-->
+            <!--<list>-->
+                <!--<value>accountCache</value>-->
+            <!--</list>-->
+        <!--</property>-->
+    <!--</bean>-->
+    <bean id="springCacheKeyGenerator" class="com.lfx.business.passport.springcache.SpringCacheKeyGenerator"/>
+    <cache:annotation-driven cache-manager="cacheManager" key-generator="springCacheKeyGenerator"/>
+</beans>
