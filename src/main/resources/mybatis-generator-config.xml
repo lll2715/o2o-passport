@@ -10,7 +10,7 @@
     <properties resource="jdbc.properties"/>
 
     <!--数据库驱动包路径 -->
-    <classPathEntry location="${drive.class.path}"/>
+    <!--<classPathEntry location="${drive.class.path}"/>-->
 
     <context id="DB2Tables" targetRuntime="MyBatis3">
         <!--关闭注释 -->
