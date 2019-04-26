@@ -2,14 +2,15 @@ package com.lfx.business.passport.controller;
 
 import com.lfx.business.passport.domain.Account;
 import com.lfx.business.passport.domain.User;
+import com.lfx.business.passport.domain.UserParamVmo;
 import com.lfx.business.passport.service.UserService;
 import com.lfx.business.passport.service.impl.AccountServiceImpl;
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -19,6 +20,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/user")
 @Slf4j
+@Api(value = "用户表")
 public class UserController {
 
     @Autowired
@@ -27,6 +29,7 @@ public class UserController {
     @Autowired
     private AccountServiceImpl accountService;
 
+    @ApiOperation(value = "查询所有")
     @RequestMapping(value = "/selectAll",method = RequestMethod.GET)
     @ResponseBody
     public Object selectAllUserInfo(){
@@ -36,6 +39,7 @@ public class UserController {
     }
 
 
+    @ApiOperation(value = "插入数据")
     @RequestMapping(value = "/insert",method = RequestMethod.POST)
     @ResponseBody
     public Object insert(){
@@ -48,18 +52,25 @@ public class UserController {
     }
 
 
-    @RequestMapping(value = "/setCache",method = RequestMethod.GET)
-    @ResponseBody
-    public void setCache(){
-        Account account = new Account("7878");
-        accountService.setCache(account);
-    }
+//    @RequestMapping(value = "/setCache",method = RequestMethod.GET)
+//    @ResponseBody
+//    public void setCache(){
+//        Account account = new Account("7878");
+//        accountService.setCache(account);
+//    }
+//
+//    @RequestMapping(value = "/getCache",method = RequestMethod.GET)
+//    @ResponseBody
+//    public Account getCache(){
+//        log.info("getCache start");
+//        return accountService.getCache();
+//    }
 
-    @RequestMapping(value = "/getCache",method = RequestMethod.GET)
+    @ApiOperation(value = "查询所有")
+    @PostMapping(value = "/selectByCondition")
     @ResponseBody
-    public Account getCache(){
-        log.info("getCache start");
-        return accountService.getCache();
+    public Object selectByCondition(@RequestBody UserParamVmo userParamVmo){
+        return userService.selectByCondition(userParamVmo);
     }
 
 }

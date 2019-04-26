@@ -1,6 +1,7 @@
 package com.lfx.business.passport.dao;
 
 import com.lfx.business.passport.domain.User;
+import com.lfx.business.passport.domain.UserParamVmo;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -14,4 +15,6 @@ public interface UserDao {
     List<User> selectAll();
 
     void insertOne(User user);
+
+    List<User> selectByCondition(UserParamVmo userParamVmo);
 }

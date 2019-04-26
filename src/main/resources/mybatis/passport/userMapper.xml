@@ -4,18 +4,40 @@
 
 <mapper namespace="com.lfx.business.passport.dao.UserDao">
 
+    <resultMap id="BaseResultMap" type="com.lfx.business.passport.domain.User">
+        <result column="id" property="id"/>
+        <result column="age" property="age"/>
+        <result column="name" property="name"/>
+        <result column="created" property="created"/>
+        <result column="modified" property="modified"/>
+        <result column="yn" property="yn"/>
+    </resultMap>
 
-    <sql id="baseColumn">
+    <sql id="BaseColumn">
         id,
         age,
-        `name`
+        `name`,
+        created,
+        modified,
+        yn
     </sql>
 
     <select id="selectAll" resultType="com.lfx.business.passport.domain.User">
-        SELECT <include refid="baseColumn"/> FROM  user
+        SELECT <include refid="BaseColumn"/> FROM  user
     </select>
 
     <insert id="insertOne" parameterType="com.lfx.business.passport.domain.User">
         INSERT INTO user(age,name) VALUES (#{age},#{name})
     </insert>
+
+    <select id="selectByCondition" resultMap="BaseResultMap" parameterType="com.lfx.business.passport.domain.UserParamVmo">
+        SELECT <include refid="BaseColumn"/> FROM  user
+        where 1 =1
+<!--        <if test="id != null">-->
+<!--            and id = #{id}-->
+<!--        </if>-->
+<!--        <if test="age != null and age != ''">-->
+<!--            and age = #{age}-->
+<!--        </if>-->
+    </select>
 </mapper>
