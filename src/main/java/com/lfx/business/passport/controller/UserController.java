@@ -1,8 +1,8 @@
 package com.lfx.business.passport.controller;
 
-import com.lfx.business.passport.domain.Account;
 import com.lfx.business.passport.domain.User;
 import com.lfx.business.passport.domain.UserParamVmo;
+import com.lfx.business.passport.service.TestMybatisService;
 import com.lfx.business.passport.service.UserService;
 import com.lfx.business.passport.service.impl.AccountServiceImpl;
 import com.wordnik.swagger.annotations.Api;
@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * Created by liufeixiang on 2019/3/12.
  */
-@Controller
+@RestController
 @RequestMapping("/user")
 @Slf4j
 @Api(value = "用户表")
@@ -31,7 +31,6 @@ public class UserController {
 
     @ApiOperation(value = "查询所有")
     @RequestMapping(value = "/selectAll",method = RequestMethod.GET)
-    @ResponseBody
     public Object selectAllUserInfo(){
         log.info("UserController.selectAllUserInfo start ...");
         List<User> list = userService.selectAll();
@@ -41,7 +40,6 @@ public class UserController {
 
     @ApiOperation(value = "插入数据")
     @RequestMapping(value = "/insert",method = RequestMethod.POST)
-    @ResponseBody
     public Object insert(){
         log.info("UserController.insert start ...");
         User user = new User();
@@ -68,9 +66,18 @@ public class UserController {
 
     @ApiOperation(value = "查询所有")
     @PostMapping(value = "/selectByCondition")
-    @ResponseBody
     public Object selectByCondition(@RequestBody UserParamVmo userParamVmo){
         return userService.selectByCondition(userParamVmo);
+    }
+
+
+    @Autowired
+    private TestMybatisService testMybatisService;
+
+    @ApiOperation(value = "查询所有")
+    @GetMapping(value = "test")
+    public void test(){
+        log.info(testMybatisService.selectByCondition().toString());
     }
 
 }
