@@ -28,9 +28,9 @@
 
     <appender name="errorFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>${log_file}/error.log</file>
-        <filter class='ch.qos.logback.classic.filter.ThresholdFilter'>
-            <level>ERROR</level>
-        </filter>
+<!--        <filter class='ch.qos.logback.classic.filter.ThresholdFilter'>-->
+<!--            <level>ERROR</level>-->
+<!--        </filter>-->
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <!--日志文件输出的文件名-->
             <fileNamePattern>${log_file}/error.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
@@ -45,14 +45,19 @@
             <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>
         </encoder>
     </appender>
-    <logger name="com.lfx.business.passport">
+
+    <logger name="ApplicationLogger">
         <appender-ref ref="errorFile"/>
+    </logger>
+
+
+    <logger name="com.lfx.business.passport" level="DEBUG" additivity="false">
+        <appender-ref ref="STDOUT"/>
     </logger>
 
 
     <!-- 日志输出级别 -->
     <root level="INFO">
         <appender-ref ref="STDOUT"/>
-        <appender-ref ref="FILE"/>
     </root>
 </configuration>

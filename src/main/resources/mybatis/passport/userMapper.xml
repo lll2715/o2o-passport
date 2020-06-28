@@ -16,22 +16,19 @@
     <sql id="BaseColumn">
         id,
         age,
-        `name`,
-        created,
-        modified,
-        yn
+        `name`
     </sql>
 
     <select id="selectAll" resultType="com.lfx.business.passport.domain.User">
-        SELECT <include refid="BaseColumn"/> FROM  user
+        SELECT <include refid="BaseColumn"/> FROM  test_user
     </select>
 
     <insert id="insertOne" parameterType="com.lfx.business.passport.domain.User">
-        INSERT INTO user(age,name) VALUES (#{age},#{name})
+        INSERT INTO test_user(age,name) VALUES (#{age},#{name})
     </insert>
 
     <select id="selectByCondition" resultMap="BaseResultMap" parameterType="com.lfx.business.passport.domain.UserParamVmo">
-        SELECT <include refid="BaseColumn"/> FROM  user
+        SELECT <include refid="BaseColumn"/> FROM  test_user
         where 1 =1
 <!--        <if test="id != null">-->
 <!--            and id = #{id}-->

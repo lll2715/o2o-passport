@@ -2,14 +2,13 @@ package com.lfx.business.passport.controller;
 
 import com.lfx.business.passport.domain.User;
 import com.lfx.business.passport.domain.UserParamVmo;
-import com.lfx.business.passport.service.TestMybatisService;
 import com.lfx.business.passport.service.UserService;
 import com.lfx.business.passport.service.impl.AccountServiceImpl;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,12 +28,20 @@ public class UserController {
     @Autowired
     private AccountServiceImpl accountService;
 
+    private static final Logger applicationLog = new LogWrapper("ApplicationLogger");
+
     @ApiOperation(value = "查询所有")
     @RequestMapping(value = "/selectAll",method = RequestMethod.GET)
     public Object selectAllUserInfo(){
-        log.info("UserController.selectAllUserInfo start ...");
-        List<User> list = userService.selectAll();
-        return list;
+        applicationLog.info("UserController.selectAllUserInfo info start ...");
+        applicationLog.error("UserController.selectAllUserInfo error start ...");
+        try {
+            List<User> list = userService.selectAll();
+            return list;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 
@@ -68,16 +75,6 @@ public class UserController {
     @PostMapping(value = "/selectByCondition")
     public Object selectByCondition(@RequestBody UserParamVmo userParamVmo){
         return userService.selectByCondition(userParamVmo);
-    }
-
-
-    @Autowired
-    private TestMybatisService testMybatisService;
-
-    @ApiOperation(value = "查询所有")
-    @GetMapping(value = "test")
-    public void test(){
-        log.info(testMybatisService.selectByCondition().toString());
     }
 
 }
